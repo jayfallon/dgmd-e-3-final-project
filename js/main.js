@@ -2,6 +2,7 @@ const myButton = document.getElementById('myButton');
 const myText = document.getElementById('myText');
 const languages = document.getElementById('languages');
 const langIndicator = document.getElementById('langIndicator');
+const charsLeft = document.getElementById('charsLeft');
 
 // declare variable to hold progressive translations
 let mySecret = '';
@@ -12,18 +13,21 @@ let myOriginal = [];
 
 // declare array to hold all language options and values
 let langArray = [];
-// generate random language variables for regurgitation
-let euroLang = euroLangs[Math.floor(Math.random()*euroLangs.length)];
-let asiaLang = asiaLangs[Math.floor(Math.random()*asiaLangs.length)];
-let afriLang = afriLangs[Math.floor(Math.random()*afriLangs.length)];
-let austroLang = austroLangs[Math.floor(Math.random()*austroLangs.length)];
 let multiLangs = [];
-multiLangs.push(euroLang,asiaLang,afriLang,austroLang);
+function randomLangs() {
+  // generate random language variables for regurgitation
+  let euroLang = euroLangs[Math.floor(Math.random()*euroLangs.length)];
+  let asiaLang = asiaLangs[Math.floor(Math.random()*asiaLangs.length)];
+  let afriLang = afriLangs[Math.floor(Math.random()*afriLangs.length)];
+  let austroLang = austroLangs[Math.floor(Math.random()*austroLangs.length)];
 
-// from a UX standpoint this isn't the greatest way to start an app
-// but for expediency's sake, I'm bound to start the user off inside
-// the textarea
-myText.focus();
+  // add one language from each group euroLang,asiaLang,afriLang,austroLang
+  multiLangs.push(euroLang, asiaLang, afriLang, austroLang);
+  // shuffle the array
+  shuffle(multiLangs);
+  console.log(multiLangs);
+}
+
 
 // shuffle the multilangs array in order to provide randomness to the
 // regurgitation. This is the Fisher-Yates Shuffle from:
@@ -73,7 +77,14 @@ function shuffle(array) {
 })();
 
 // Second, we detect the language of the message on textarea blur,
-// validating for the presence of content and not undefined
+// validating for the presence of content and not undefined, and we
+// provide a counter for a supposed 280 character limit
+// Add event listeners to textarea
+myText.addEventListener("keyup", checkMsgLength);
+myText.addEventListener("input", function(){
+  // enable languages select
+  languages.removeAttribute("disabled");
+});
 myText.addEventListener("blur", function(){
 	//  Create the XHR and POST the encoded input to the API
   var detected = new XMLHttpRequest();
@@ -103,7 +114,6 @@ myText.addEventListener("blur", function(){
           } else {
           	langIndicator.style.color = "";
           	langDisplay();
-            languages.focus();
             mySecret = encodeURI(myText.value);
           }
         });
@@ -111,10 +121,44 @@ myText.addEventListener("blur", function(){
   };
 });
 
+// implement a countdown indicator for the message
+// declare variable for character limit
+var msgLength = 280;
+// check the length of the bio
+function checkMsgLength() {
+  console.log("hello");
+  var x = this.value.length;
+  x = msgLength - x;
+  charsLeft.innerHTML = x;
+  // change color and content once bio length exceeds character limit
+  // switch back once user adjusts length to under character limit
+  if ( x < 0) {
+    while (lenghtCheck.firstChild) {
+        lenghtCheck.removeChild(lenghtCheck.firstChild);
+    }
+    msgElement = document.createElement('span');
+    msgElement.setAttribute("class", "error");
+    msgTextElement = document.createTextNode("You have exceeded the limit by ");
+    msgElement.appendChild(msgTextElement);
+    lenghtCheck.appendChild(msgElement);
+    msgElement = document.createElement('span');
+    msgElement.setAttribute("class", "error");
+    lengthElement = document.createTextNode(Math.abs(x));
+    msgElement.appendChild(lengthElement);
+    lenghtCheck.appendChild(msgElement);
+  } else {
+    while (lenghtCheck.firstChild) {
+        lenghtCheck.removeChild(lenghtCheck.firstChild);
+    }
+    msgElement = document.createElement('span');
+    lengthElement = document.createTextNode(x);
+    msgElement.appendChild(lengthElement);
+    lenghtCheck.appendChild(msgElement);
+  }
+}
+
 // Third we show the user which language their message has been composed in
 function langDisplay(){
-  // enable languages select
-  languages.removeAttribute("disabled");
 	// remove detected language if already displayed
   if (langIndicator.firstChild) {
       langIndicator.removeChild(langIndicator.firstChild);
@@ -125,7 +169,7 @@ function langDisplay(){
     	newElement = document.createElement('span');
       elementText = "We've detected that your message is written in ";
       elementLang = entry[0];
-      elementClose = ". Proceed to Step 2.";
+      elementClose = ".";
       joinedElements = [elementText, elementLang, elementClose];
       joinedElement = document.createTextNode(joinedElements.join(""));
       newElement.appendChild(joinedElement);
@@ -147,41 +191,49 @@ languages.addEventListener("change", function(){
   myLanguage = this.options[this.selectedIndex].text;
   myChoice.push(myLanguage, myLang);
   // push to multiLangs array for regurgitation
-  multiLangs.push(myChoice);
+  //multiLangs.push(myChoice);
   myButton.removeAttribute("disabled");
 });
 
 // add event listener to button
-myButton.addEventListener("click", regurgitate);
+myButton.addEventListener("click", choicePick);
 // call the translate message function
-function regurgitate(){
+function choicePick(){
+  // clear get a new set of random languages
+  multiLangs = [];
+  randomLangs();
+  // reset X
   languageDisplay.innerHTML = "";
-  // shuffle the array
-  shuffle(multiLangs);
-  // translate message in multiple
-  multiLangs.forEach(translateMsg);
+  // translate the user's choice first
+  translateMsg(myChoice, mySecret);
 }
 
-function targetMsg(){
-  console.log(typeof myLang,myDetected);
+// send the multiLangs sequence to translateMsg
+// once the choice 
+function randomPicks() {
+  var lang = multiLangs[0];
+  var src = mySecret;
+  translateMsg(lang, src);
+  multiLangs.shift();
 }
 
 // translate the message as many times in multiLangs
-function translateMsg(lang) {
+function translateMsg(lang, src) {
   //  Create the XHR and POST the encoded input to the API
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + mySecret + "&target=" + lang[1]);
+  xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + src + "&target=" + lang[1]);
   xhr.send();
   // add listener function
   xhr.onreadystatechange = function() {
     //check the status
-    if (this.readyState == 4 && this.status == 200) {
+    if (this.readyState == 4) {
+      if (output.firstChild) output.removeChild(output.firstChild);
+      if (this.status == 200) {
         //convert responseText to JSON object
         var json = JSON.parse(this.responseText);
         // extract the translation and language source from the response
         json.data.translations.forEach(function(entry){
           mySecret = entry.translatedText;
-          console.log(mySecret);
           // append languages used to languageDisplay
           explainElement = document.createElement('span');
           elementLang = lang[0];
@@ -190,43 +242,64 @@ function translateMsg(lang) {
           joinedElement = document.createTextNode(joinedElements.join(" "));
           explainElement.appendChild(joinedElement);
           languageDisplay.appendChild(explainElement);
+          translateElement = document.createElement('span');
+          translatedElement = document.createTextNode(mySecret);
+          translateElement.appendChild(translatedElement);
+          output.appendChild(translateElement);
+          if (multiLangs.length > 0) {
+            randomPicks();
+          } else {
+            originalPick(myOriginal,mySecret);
+          }
         });
-     }
+      } else {
+        elementError = document.createElement('span');
+        elementErrorText = document.createTextNode('A serious error has occurred. Please refresh and try again.');
+        elementError.appendChild(elementErrorText);
+        output.appendChild(elementError);
+      }
+    }
   };
 }
 
-// From Jake Archibald's Promises and Back:
-// http://www.html5rocks.com/en/tutorials/es6/promises/#toc-promisifying-xmlhttprequest
-
-function post(url) {
-  // Return a new promise.
-  return new Promise(function(resolve, reject) {
-    // Do the usual XHR stuff
-    var req = new XMLHttpRequest();
-    req.open('POST', url);
-
-    req.onload = function() {
-      // This is called even on 404 etc
-      // so check the status
-      if (req.status == 200) {
-        // Resolve the promise with the response text
-        resolve(req.response);
+function originalPick(lang, src) {
+  // var lang = myOriginal;
+  // var src = mySecret;
+  // translateMsg(lang, src);
+  // myOriginal.shift();
+  console.log("fin");
+  //  Create the XHR and POST the encoded input to the API
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + src + "&target=" + lang[1]);
+  xhr.send();
+  // add listener function
+  xhr.onreadystatechange = function() {
+    //check the status
+    if (this.readyState == 4) {
+      if (output.firstChild) output.removeChild(output.firstChild);
+      if (this.status == 200) {
+        //convert responseText to JSON object
+        var json = JSON.parse(this.responseText);
+        // extract the translation and language source from the response
+        json.data.translations.forEach(function(entry){
+          mySecret = entry.translatedText;
+          // append languages used to languageDisplay
+          explainElement = document.createElement('span');
+          elementLang = lang[0];
+          joinedElement = document.createTextNode(elementLang);
+          explainElement.appendChild(joinedElement);
+          languageDisplay.appendChild(explainElement);
+          translateElement = document.createElement('span');
+          translatedElement = document.createTextNode(entry.translatedText);
+          translateElement.appendChild(translatedElement);
+          output.appendChild(translateElement);
+        });
+      } else {
+        elementError = document.createElement('span');
+        elementErrorText = document.createTextNode('A serious error has occurred. Please refresh and try again.');
+        elementError.appendChild(elementErrorText);
+        output.appendChild(elementError);
       }
-      else {
-        // Otherwise reject with the status text
-        // which will hopefully be a meaningful error
-        reject(Error(req.statusText));
-      }
-    };
-
-    // Handle network errors
-    req.onerror = function() {
-      reject(Error("Network Error"));
-    };
-
-    // Make the request
-    req.send();
-  });
+    }
+  };
 }
-
-

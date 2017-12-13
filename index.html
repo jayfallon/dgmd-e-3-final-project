@@ -3,8 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Regurgimatator</title>
+	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<script src="js/jquery-3.2.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<script src="js/languages.js"></script>
 </head>
 <body>
@@ -27,23 +29,23 @@
 		<section>
 			<div id="input">
 				<div>
-					<h2>1. Write a message.</h2>
+					<h2>1. Write Your Message</h2>
 					<textarea name="myText" id="myText" placeholder="Your message goes here."></textarea>
+					<div id="lenghtCheck"><span id="charsLeft">280</span></div>
 					<div id="langIndicator"></div>
 				</div>
 				<div>
-					<h2>2. Select a target language.</h2>
+					<h2>2. Select From Favorites</h2>
 					<select name="languages" id="languages" disabled="disabled">
-					  <option value=null>Select Your Desired Language</option>
+					  <option value=null>My Faves</option>
 					</select>
 				</div>
-				<h2>3. Press this button.</h2>
-				<button id="myButton" disabled>Regurgimatate!</button>
+				<h2>3. Run the Regurgimatator&trade;!</h2>
+				<button id="myButton" disabled>Click For Fun!</button>
 			</div>
 			<div id="languageDisplay"></div>
 			<div id="output"></div>
 		</section>
-		<div id="langArrayed"></div>
 		<footer>
 			&copy;2017 - Jay Fallon - Enjoy fun stuffs
 		</footer>
