@@ -55,7 +55,7 @@ function shuffle(array) {
   langs.onreadystatechange = function() {
     //check the status
     if (this.readyState == 4 && this.status == 200) {
-        //convert resonseText to JSON object
+        //convert responseText to JSON object
         var json = JSON.parse(this.responseText);
         // extract the translation and language source from the response
         json.data.languages.forEach(function(entry){ 
@@ -72,9 +72,10 @@ function shuffle(array) {
   };
 })();
 
-// on textarea blur, validate for content and detect language
+// Second, we detect the language of the message on textarea blur,
+// validating for the presence of content and not undefined
 myText.addEventListener("blur", function(){
-	//  Create the XHR and POST the encoded input to the API 
+	//  Create the XHR and POST the encoded input to the API
   var detected = new XMLHttpRequest();
   detected.open("POST", "https://translation.googleapis.com/language/translate/v2/detect?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + encodeURI(myText.value));
   detected.send();
@@ -82,7 +83,7 @@ myText.addEventListener("blur", function(){
   detected.onreadystatechange = function() {
     //check the status
     if (this.readyState == 4 && this.status == 200) {
-        //convert resonseText to JSON object
+        //convert responseText to JSON object
         var json = JSON.parse(this.responseText);
         // extract the detected language from the response
         json.data.detections[0].forEach(function(entry){
@@ -110,6 +111,7 @@ myText.addEventListener("blur", function(){
   };
 });
 
+// Third we show the user which language their message has been composed in
 function langDisplay(){
   // enable languages select
   languages.removeAttribute("disabled");
@@ -138,7 +140,7 @@ let myLanguage = "";
 let myLang = "";
 let myChoice = [];
 
-// get my target language value and name on select change
+// Fourth, we ready the user's target language and value on select change
 languages.addEventListener("change", function(){
   myChoice = [];
 	myLang = this.value;
@@ -174,7 +176,7 @@ function translateMsg(lang) {
   xhr.onreadystatechange = function() {
     //check the status
     if (this.readyState == 4 && this.status == 200) {
-        //convert resonseText to JSON object
+        //convert responseText to JSON object
         var json = JSON.parse(this.responseText);
         // extract the translation and language source from the response
         json.data.translations.forEach(function(entry){
@@ -193,6 +195,38 @@ function translateMsg(lang) {
   };
 }
 
-function backToMsg(lang) {
+// From Jake Archibald's Promises and Back:
+// http://www.html5rocks.com/en/tutorials/es6/promises/#toc-promisifying-xmlhttprequest
 
+function post(url) {
+  // Return a new promise.
+  return new Promise(function(resolve, reject) {
+    // Do the usual XHR stuff
+    var req = new XMLHttpRequest();
+    req.open('POST', url);
+
+    req.onload = function() {
+      // This is called even on 404 etc
+      // so check the status
+      if (req.status == 200) {
+        // Resolve the promise with the response text
+        resolve(req.response);
+      }
+      else {
+        // Otherwise reject with the status text
+        // which will hopefully be a meaningful error
+        reject(Error(req.statusText));
+      }
+    };
+
+    // Handle network errors
+    req.onerror = function() {
+      reject(Error("Network Error"));
+    };
+
+    // Make the request
+    req.send();
+  });
 }
+
+
