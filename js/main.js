@@ -3,8 +3,11 @@ const myText = document.getElementById('myText');
 const languages = document.getElementById('languages');
 const langIndicator = document.getElementById('langIndicator');
 const charsLeft = document.getElementById('charsLeft');
+const output = document.getElementById('output');
 
-// declare variable to hold progressive translations
+// declare variable to hold original message
+let myOriginalSecret = '';
+// declare variable to hold progressive message translations
 let mySecret = '';
 // declare variable to hold detected language
 let myDetected = '';
@@ -25,14 +28,14 @@ function randomLangs() {
   multiLangs.push(euroLang, asiaLang, afriLang, austroLang);
   // shuffle the array
   shuffle(multiLangs);
-  console.log(multiLangs);
 }
 
 
 // shuffle the multilangs array in order to provide randomness to the
-// regurgitation. This is the Fisher-Yates Shuffle from:
+// regurgitation.
+// This is the Fisher-Yates Shuffle from:
 // https://bost.ocks.org/mike/shuffle/
-// upon which I can neither improve nor improvise upon well enough
+// which I can neither improve nor improvise upon well enough
 function shuffle(array) {
   var m = array.length, t, i;
   // While there remain elements to shuffle…
@@ -115,6 +118,7 @@ myText.addEventListener("blur", function(){
           	langIndicator.style.color = "";
           	langDisplay();
             mySecret = encodeURI(myText.value);
+            myOriginalSecret = (myText.value);
           }
         });
      }
@@ -126,7 +130,6 @@ myText.addEventListener("blur", function(){
 var msgLength = 280;
 // check the length of the bio
 function checkMsgLength() {
-  console.log("hello");
   var x = this.value.length;
   x = msgLength - x;
   charsLeft.innerHTML = x;
@@ -289,10 +292,8 @@ function originalPick(lang, src) {
           joinedElement = document.createTextNode(elementLang);
           explainElement.appendChild(joinedElement);
           languageDisplay.appendChild(explainElement);
-          translateElement = document.createElement('span');
           translatedElement = document.createTextNode(entry.translatedText);
-          translateElement.appendChild(translatedElement);
-          output.appendChild(translateElement);
+          output.appendChild(translatedElement);
         });
       } else {
         elementError = document.createElement('span');

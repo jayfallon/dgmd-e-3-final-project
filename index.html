@@ -7,7 +7,6 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<script src="js/languages.js"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -20,37 +19,49 @@
 				</a>
 			</h1>
 		</header>
-		<nav>
+		<nav role="navigation">
 			<ul>
-				<li><a href="/">Home</a></li>
 				<li><a href="">About</a></li>
 			</ul>
 		</nav>
 		<section>
-			<div id="input">
-				<div>
-					<h2>1. Write Your Message</h2>
-					<textarea name="myText" id="myText" placeholder="Your message goes here."></textarea>
-					<div id="lenghtCheck"><span id="charsLeft">280</span></div>
-					<div id="langIndicator"></div>
+			<div class="two-col-grid">
+				<div class="col-left">
+					<div id="input">
+						<div>
+							<h2>1. Write Your Message</h2>
+							<div id="lenghtCheck"><span id="charsLeft">280</span></div>
+							<textarea name="myText" id="myText" placeholder="Your message goes here."></textarea>
+							<div id="langIndicator">Detecting…</div>
+						</div>
+						<div>
+							<h2>2. Select From Favorites</h2>
+							<select name="languages" id="languages" disabled="disabled">
+							  <option value=null>My Faves</option>
+							</select>
+						</div>
+						<h2>3. Run the Regurgimatator&trade;!</h2>
+						<button id="myButton" disabled>Click For Fun!</button>
+					</div>
 				</div>
-				<div>
-					<h2>2. Select From Favorites</h2>
-					<select name="languages" id="languages" disabled="disabled">
-					  <option value=null>My Faves</option>
-					</select>
+				<div class="col-right">
+					<div class="color-wrapper">
+						<h2>4. Watch your message get Regurgimatated</h2>
+						<div id="languageDisplay"></div>
+						<div id="output"></div>
+						<button id="saving">Save Message</button>
+						<div id="newSaved"></div>
+						<div id="saved">Older Messages</div>
+					</div>
 				</div>
-				<h2>3. Run the Regurgimatator&trade;!</h2>
-				<button id="myButton" disabled>Click For Fun!</button>
 			</div>
-			<div id="languageDisplay"></div>
-			<div id="output"></div>
 		</section>
 		<footer>
-			&copy;2017 - Jay Fallon - Enjoy fun stuffs
+			&copy;2017 - Jay Fallon - Enjoy fun stuffs!
 		</footer>
 	</div>
-
+	<script src="js/languages.js"></script>
 	<script src="js/main.js"></script>
+	<script src="js/persistence.js"></script>
 </body>
 </html>

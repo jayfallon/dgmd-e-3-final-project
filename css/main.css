@@ -1,5 +1,10 @@
-body, html {
+html, body {
+	margin: 0;
+	padding: 0;
 	height: 100%;
+}
+
+body {
 	font-family: Roboto,"Open Sans","Helvetica Neue",sans-serif;
 	letter-spacing: 0;
   font-weight: 400;
@@ -11,17 +16,45 @@ body, html {
   color: rgba(0,0,0,.84);
   font-size: 20px;
   line-height: 1.4;
+
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
 }
 
 #wrapper {
 	margin: 0 auto;
-	width: 500px;
+	width: 100%;
+}
+
+.two-col-grid {
+	margin: 0 auto;
+	width: 1000px;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	grid-template-rows: 100%;
+}
+
+.col-left {
+	grid-column-start: 1;
+	grid-column-end: 2;
+	grid-row-start: 1;
+	grid-row-end: 1;
+}
+.col-right {
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 1;
+	grid-row-end: 1;
+}
+
+h2 {
+	font-size: 22px;
 }
 
 textarea#myText {
 	margin: 0;
-	padding: 3px;
-	width: 100%;
 	border: 1px solid #333;
 	border-radius: 3px;
 	font-size: 20px;
@@ -30,7 +63,7 @@ textarea#myText {
 
 select {
 	margin: 0;
-	width: 100%;
+	width: 98%;
 	padding: 12px;
 	font-size: 22px;
 }
@@ -51,6 +84,12 @@ button:disabled {
 
 #output {
 	font-size: 24px;
+}
+
+.outer {
+	margin: 0 0 6px;
+	padding: 6px;
+	border: 1px solid #333;
 }
 
 .error {
