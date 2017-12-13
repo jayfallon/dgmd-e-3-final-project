@@ -33,3 +33,7 @@ button {
 	font-size: 28px;
 	text-transform: uppercase;
 }
+
+button:disabled {
+    background: #dddddd;
+}

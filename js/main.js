@@ -3,7 +3,14 @@ const myText = document.getElementById('myText');
 const languages = document.getElementById('languages');
 const langIndicator = document.getElementById('langIndicator');
 
+// declare variable to hold progressive translations
+let mySecret = '';
+// declare variable to hold detected language
 let myDetected = '';
+// declare array to hold original language option and value
+let myOriginal = [];
+
+// declare array to hold all language options and values
 let langArray = [];
 // generate random language variables for regurgitation
 let euroLang = euroLangs[Math.floor(Math.random()*euroLangs.length)];
@@ -35,8 +42,6 @@ function shuffle(array) {
   }
   return array;
 }
-// shuffle the array
-shuffle(multiLangs);
 
 // First we get the available languages from the Google API.
 // I could hard code them but for the sake of accuracy I
@@ -97,6 +102,8 @@ myText.addEventListener("blur", function(){
           } else {
           	langIndicator.style.color = "";
           	langDisplay();
+            languages.focus();
+            mySecret = encodeURI(myText.value);
           }
         });
      }
@@ -104,6 +111,8 @@ myText.addEventListener("blur", function(){
 });
 
 function langDisplay(){
+  // enable languages select
+  languages.removeAttribute("disabled");
 	// remove detected language if already displayed
   if (langIndicator.firstChild) {
       langIndicator.removeChild(langIndicator.firstChild);
@@ -119,7 +128,8 @@ function langDisplay(){
       joinedElement = document.createTextNode(joinedElements.join(""));
       newElement.appendChild(joinedElement);
       langIndicator.appendChild(newElement);
-      console.log(langArray);
+      // push detected to myOriginal for final regurgitation
+      myOriginal.push(entry[0], entry[1]);
     }
   });
 }
@@ -134,29 +144,31 @@ languages.addEventListener("change", function(){
 	myLang = this.value;
   myLanguage = this.options[this.selectedIndex].text;
   myChoice.push(myLanguage, myLang);
-  // push to multiLangs array
+  // push to multiLangs array for regurgitation
   multiLangs.push(myChoice);
+  myButton.removeAttribute("disabled");
 });
 
 // add event listener to button
 myButton.addEventListener("click", regurgitate);
-
+// call the translate message function
 function regurgitate(){
+  languageDisplay.innerHTML = "";
+  // shuffle the array
+  shuffle(multiLangs);
+  // translate message in multiple
   multiLangs.forEach(translateMsg);
 }
 
 function targetMsg(){
-  
   console.log(typeof myLang,myDetected);
 }
 
-// translate the message
+// translate the message as many times in multiLangs
 function translateMsg(lang) {
-  // encode text input
-  let myEncodedText = encodeURI(myText.value);
   //  Create the XHR and POST the encoded input to the API
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + myEncodedText + "&target=" + lang[1]);
+  xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + mySecret + "&target=" + lang[1]);
   xhr.send();
   // add listener function
   xhr.onreadystatechange = function() {
@@ -166,21 +178,21 @@ function translateMsg(lang) {
         var json = JSON.parse(this.responseText);
         // extract the translation and language source from the response
         json.data.translations.forEach(function(entry){
-          // append translation to output
-          output.innerHTML = "";
-          explainElement = document.createElement('div');
-          elementText = "Now translating into";
+          mySecret = entry.translatedText;
+          console.log(mySecret);
+          // append languages used to languageDisplay
+          explainElement = document.createElement('span');
           elementLang = lang[0];
-          elementClose = ":";
-          joinedElements = [elementText, elementLang, elementClose];
+          elementClose = " > ";
+          joinedElements = [elementLang, elementClose];
           joinedElement = document.createTextNode(joinedElements.join(" "));
           explainElement.appendChild(joinedElement);
-          output.appendChild(explainElement);
-          translateElement = document.createElement('div');
-          translatedElement = document.createTextNode(entry.translatedText);
-          translateElement.appendChild(translatedElement);
-          output.appendChild(translateElement);
+          languageDisplay.appendChild(explainElement);
         });
      }
   };
+}
+
+function backToMsg(lang) {
+
 }
