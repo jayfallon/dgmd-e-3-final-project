@@ -111,12 +111,13 @@ myText.addEventListener("blur", function(){
           	newElement = document.createElement('span');
             elementText = document.createTextNode("You need to write a message first.");
             newElement.appendChild(elementText);
-            langIndicator.style.color = "red";
+            langIndicator.setAttribute("class", "error");
             langIndicator.appendChild(newElement);
             myText.focus();
           } else {
-          	langIndicator.style.color = "";
+          	langIndicator.removeAttribute("class");
           	langDisplay();
+            // captures the original message
             mySecret = encodeURI(myText.value);
             myOriginalSecret = (myText.value);
           }
@@ -170,10 +171,9 @@ function langDisplay(){
   langArray.forEach(function(entry){
     if (myDetected === entry[1]){
     	newElement = document.createElement('span');
-      elementText = "We've detected that your message is written in ";
       elementLang = entry[0];
-      elementClose = ".";
-      joinedElements = [elementText, elementLang, elementClose];
+      elementText = " Detected";
+      joinedElements = [elementLang, elementText];
       joinedElement = document.createTextNode(joinedElements.join(""));
       newElement.appendChild(joinedElement);
       langIndicator.appendChild(newElement);
@@ -193,8 +193,6 @@ languages.addEventListener("change", function(){
 	myLang = this.value;
   myLanguage = this.options[this.selectedIndex].text;
   myChoice.push(myLanguage, myLang);
-  // push to multiLangs array for regurgitation
-  //multiLangs.push(myChoice);
   myButton.removeAttribute("disabled");
 });
 
@@ -207,12 +205,12 @@ function choicePick(){
   randomLangs();
   // reset X
   languageDisplay.innerHTML = "";
-  // translate the user's choice first
+  // translate from the user's choice language first
   translateMsg(myChoice, mySecret);
 }
 
 // send the multiLangs sequence to translateMsg
-// once the choice 
+// once the choice call has finished
 function randomPicks() {
   var lang = multiLangs[0];
   var src = mySecret;
@@ -266,11 +264,6 @@ function translateMsg(lang, src) {
 }
 
 function originalPick(lang, src) {
-  // var lang = myOriginal;
-  // var src = mySecret;
-  // translateMsg(lang, src);
-  // myOriginal.shift();
-  console.log("fin");
   //  Create the XHR and POST the encoded input to the API
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + src + "&target=" + lang[1]);

@@ -29,7 +29,9 @@ window.onload = function(){
         // add myOldMessage to existing array
         oldMessages.unshift(myNewMessage);
         // write the new message to the page
-        writeRowToPage(myNewMessage,newElement);
+        if (oMessage.length > 0) {
+            writeRowToPage(myNewMessage,newElement);
+        }
         // persist messages
         localStorage.setItem('messagesArray', JSON.stringify(oldMessages));
         // call clearForm to reset after adding contact

@@ -21,43 +21,41 @@
 		</header>
 		<nav role="navigation">
 			<ul>
-				<li><a href="">About</a></li>
+				<li><a href="">Why Though?</a></li>
 			</ul>
 		</nav>
 		<section>
-			<div class="two-col-grid">
-				<div class="col-left">
-					<div id="input">
-						<div>
-							<h2>1. Write Your Message</h2>
-							<div id="lenghtCheck"><span id="charsLeft">280</span></div>
-							<textarea name="myText" id="myText" placeholder="Your message goes here."></textarea>
-							<div id="langIndicator">Detecting…</div>
-						</div>
-						<div>
-							<h2>2. Select From Favorites</h2>
-							<select name="languages" id="languages" disabled="disabled">
-							  <option value=null>My Faves</option>
-							</select>
-						</div>
-						<h2>3. Run the Regurgimatator&trade;!</h2>
-						<button id="myButton" disabled>Click For Fun!</button>
+			<div id="grid-wrap">
+				<div id="language-indicator">
+					<div id="langIndicator"></div>
+				</div>
+				<div id="language-select">
+					<select name="languages" id="languages" disabled="disabled">
+					  <option value=null>Select First Language</option>
+					</select>
+				</div>
+				<div id="language-input">
+					<div class="text-wrapper">
+						<textarea name="myText" id="myText" placeholder="Type your message here first."></textarea>
+						<div id="lenghtCheck"><span id="charsLeft">280</span></div>
 					</div>
 				</div>
-				<div class="col-right">
-					<div class="color-wrapper">
-						<h2>4. Watch your message get Regurgimatated</h2>
-						<div id="languageDisplay"></div>
-						<div id="output"></div>
-						<button id="saving">Save Message</button>
-						<div id="newSaved"></div>
-						<div id="saved">Older Messages</div>
-					</div>
+				<div id="language-output">
+					<div id="languageDisplay"></div>
+					<div id="output"></div>
+				</div>
+				<div id="language-action">
+					<button id="myButton" disabled>Click For Fun!</button>
+					<button id="saving">Save Message</button>
+				</div>
+				<div id="saved-messages">
+					<div id="newSaved"></div>
+					<div id="saved"></div>
 				</div>
 			</div>
 		</section>
 		<footer>
-			&copy;2017 - Jay Fallon - Enjoy fun stuffs!
+			<div class="footer-copy">&copy;2017 - Jay Fallon - Enjoy fun stuffs!</div>
 		</footer>
 	</div>
 	<script src="js/languages.js"></script>
