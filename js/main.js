@@ -351,9 +351,14 @@ window.onload = function(){
       document.getElementById("myText").value = "";
       myOriginal = [];
       output.innerHTML = "";
-      if (languageDisplay.hasChildNodes()) {
+      while (languageDisplay.hasChildNodes()) {
           languageDisplay.removeChild(languageDisplay.childNodes[0]);
       }
+      while (lenghtCheck.hasChildNodes()) {
+          lenghtCheck.removeChild(lenghtCheck.childNodes[0]);
+      }
+      resetLength = document.createTextNode("280");
+      lenghtCheck.appendChild(resetLength);
   }
 
   function writeRowToPage(dataObject, element) {
