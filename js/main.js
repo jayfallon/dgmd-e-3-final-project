@@ -405,5 +405,3 @@ window.onload = function(){
   }
   clearForm();
 }
-
-
