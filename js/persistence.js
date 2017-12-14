@@ -1,47 +1,12 @@
 window.onload = function(){
-    // retrieve older messages and populate array, otherwise create empty
-    var oldMessages = JSON.parse(localStorage.getItem('messagesArray')) || [];
-    // var oldContacts = JSON.parse(localStorage.getItem('contactsArray')) || [];
-    console.log(typeof oldMessages);
-    // declare a constructor function to take
-    // inputs and create message entry
-    function newMessage( ori, omsg, rmsg) {
-        this.original = ori;
-        this.oMessage = omsg;
-        this.rMessage = rmsg
-    }
-
-    // define the element to post data to writeRowToPage function
-    var element = document.getElementById("saved");
-    // at newmessage to the top
-    var newElement = document.getElementById("newSaved");
-    // define button event listerner
-    var saveButton = document.getElementById("saving");
-    // add event listener better than "do it!"
-    saveButton.addEventListener("click", saveMsg);
-
-    function saveMsg(){
-        var oMessage = myOriginalSecret;
-        var original = myOriginal[0];
-        var rMessage = mySecret;
-
-        var myNewMessage = new newMessage(original, oMessage, rMessage);
-        // add myOldMessage to existing array
-        oldMessages.unshift(myNewMessage);
-        // write the new message to the page
-        if (oMessage.length > 0) {
-            writeRowToPage(myNewMessage,newElement);
-        }
-        // persist messages
-        localStorage.setItem('messagesArray', JSON.stringify(oldMessages));
-        // call clearForm to reset after adding contact
-        clearForm();
-    }
-
     // clear the form values and make ready to start over
     function clearForm() {
         document.getElementById("myText").value = "";
         myOriginal = [];
+        output.innerHTML = "";
+        if (languageDisplay.hasChildNodes()) {
+            languageDisplay.removeChild(languageDisplay.childNodes[0]);
+        }
     }
 
     function writeRowToPage(dataObject, element) {

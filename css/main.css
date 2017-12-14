@@ -29,6 +29,10 @@ h1 {
 	text-align: center;
 }
 
+h2 {
+	font-size: 20px;
+}
+
 header a {
 	color: #111;
 	text-decoration: none;
@@ -119,6 +123,13 @@ footer {
 	grid-row-end: 5;
 }
 
+.text-column {
+	grid-column-start: 1;
+	grid-column-end: 3;
+	grid-row-start: 1;
+	grid-row-end: 2;
+}
+
 #lenghtCheck {
 	color: #666;
 	font-size: 15px;
@@ -156,7 +167,7 @@ button {
 	background-color: #333;
 	margin-right: 6px;
 	padding: 12px;
-	border: 1px solid #333;
+	border: 0;
 	color: #FFF;
 	font-size: 16px;
 	font-weight: bold;
@@ -165,9 +176,8 @@ button {
 
 button:disabled {
     background: #dddddd;
+    color: #999;
 }
-
-
 
 #languageDisplay {
 	font-size: 16px;
@@ -211,19 +221,7 @@ button:disabled {
 	width: 100%;
 }
 
-.two-col-grid {
-	
-}
-
-.col-left {
-	grid-column-start: 1;
-	grid-column-end: 2;
-	grid-row-start: 1;
-	grid-row-end: 1;
-}
-.col-right {
-	grid-column-start: 2;
-	grid-column-end: 3;
-	grid-row-start: 1;
-	grid-row-end: 1;
+#newSaved {
+	display: flex;
+	flex-direction: column-reverse;
 }

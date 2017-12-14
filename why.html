@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Regurgimatator - Why?</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+<body>
+	<div id="wrapper">
+		<header>
+			<h1>
+				<a href="index.html">
+					<span>
+						The Regurgimatator&trade;
+					</span>
+				</a>
+			</h1>
+		</header>
+		<nav role="navigation">
+			<ul>
+				<li><a href="why.html">Why Though?</a></li>
+			</ul>
+		</nav>
+		<section>
+			<div id="grid-wrap">
+				<div class="text-column">
+					<h2>Why?</h2>
+					<p>Well, for starters, if you travel a lot like I do you may not know the local language(s) and may find yourself trying to communicate with other people making use of the basic language that you share in common, which is usually pidgin English or some variation thereof.</p>
+					<p>But imagine if you're one of four people and you need to communicate something to Person #4. The only problem is that Person #2 is the only person who speaks your language, and Person #2 can communicate with Person #3, but not Person #4, who can only understand Person #3. You end up playing Telephone in four languages.</p>
+					<p>This can lead to much confusion, hassle and four distrusting people in a very short period of time, so let's cut out the middle man.</p>
+					<h2>Introducing Regurgimatator&trade;</h2>
+					<p>By using Google's Cloud Translation service, with Regurgimatator&trade; you can automatically translate any phrase into the inital language of your choice. We will then translate that same text successively with four other languages and then return the last translation to you in the language you originally used. This way you'll know exactly what the last person in your game of Telephone was understanding of your message and hopefully it'll give you time to correct yourself. Maybe.</p>
+					<p>You can also save your translations for later use or use them to anser bots on Twitter, which is the real reason I came up with the idea for the app.</p>
+					<h2>Is it a work in progress?</h2>
+					<p>Why yes, yes it is.</p>
+					<p>At the moment it's only optimized for the desktop and there's a small issue with apostrophes coming back from Google in the JSON and it's been giving me a hard time since I'm doing this in vanilla Javascript and not making use if any fancy libraries.</p>
+					<h2>Things I've Learned</h2>
+					<p>This project took longer than I expected. Implementing something like this using the Google Translation UI without Node was a real hassle and I probably won't attempt again. It was fun though, somewhat tedious in getting everything to play together nicely but overall I'm happy with the brief effort.</p>
+					<h2>TODO's</h2>
+					<ul>
+						<li>Add text to voice.</li>
+						<li>Pretty the UI up a bit.</li>
+						<li>Not allow more than 280 characters to be translated.</li>
+					</ul>
+					<p>Anyways, I hope you enjoy.</p>
+				</div>
+			</div>
+		</section>
+		<footer>
+			<div class="footer-copy">&copy;2017 - Jay Fallon - Enjoy fun stuffs!</div>
+		</footer>
+	</div>
+</body>
+</html>
