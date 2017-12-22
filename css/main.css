@@ -103,6 +103,8 @@ footer {
 }
 
 #language-output {
+	padding: 4px;
+	border: 1px solid #bababa;
 	grid-column-start: 2;
 	grid-column-end: 3;
 	grid-row-start: 2;
@@ -155,7 +157,7 @@ select#languages {
 
 #languageDisplay {
 	color: #666;
-	font-size: 14px;
+	font-size: 13px !important;
 	text-transform: uppercase;
 }
 

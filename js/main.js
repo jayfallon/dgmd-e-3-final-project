@@ -57,7 +57,7 @@ window.onload = function(){
   (function(){
   //  Create the XHR and POST the encoded input to the API 
     var langs = new XMLHttpRequest();
-    langs.open("POST", "https://translation.googleapis.com/language/translate/v2/languages?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&target=en"); 
+    langs.open("POST", "https://translation.googleapis.com/language/translate/v2/languages?key=[key here]&target=en"); 
     langs.send();
     // add listener function
     langs.onreadystatechange = function() {
@@ -92,7 +92,7 @@ window.onload = function(){
   myText.addEventListener("blur", function(){
     //  Create the XHR and POST the encoded input to the API
     var detected = new XMLHttpRequest();
-    detected.open("POST", "https://translation.googleapis.com/language/translate/v2/detect?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + encodeURI(myText.value));
+    detected.open("POST", "https://translation.googleapis.com/language/translate/v2/detect?key=[key here]&q=" + encodeURI(myText.value));
     detected.send();
     // add listener function
     detected.onreadystatechange = function() {
@@ -223,7 +223,7 @@ window.onload = function(){
   function translateMsg(lang, src) {
     //  Create the XHR and POST the encoded input to the API
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + src + "&target=" + lang[1]);
+    xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=[key here]&q=" + src + "&target=" + lang[1]);
     xhr.send();
     // add listener function
     xhr.onreadystatechange = function() {
@@ -267,7 +267,7 @@ window.onload = function(){
   function originalPick(lang, src) {
     //  Create the XHR and POST the encoded input to the API
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=AIzaSyDR3sOkcEVdJYyYCtVKnmV0eJ3Mxj8d0WA&q=" + src + "&target=" + lang[1]);
+    xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=[key here]&q=" + src + "&target=" + lang[1]);
     xhr.send();
     // add listener function
     xhr.onreadystatechange = function() {
